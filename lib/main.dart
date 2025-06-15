@@ -17,44 +17,46 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String data = "";
+  String data = "...";
 
   dynamic testAPI() async {
     var url = "https://jsonplaceholder.typicode.com/todos/1";
-
     var response = await http.get(Uri.parse(url));
 
-    var title = jsonDecode(response.body)["title"];
+    var jsonResponse = jsonDecode(response.body);
+    var title = jsonResponse["title"];
+    var userId = jsonResponse["userId"];
+    var id = jsonResponse["id"];
+    var completed = jsonResponse["completed"];
 
-    return title;
+    return completed.toString();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ChatScreen(chatService: GeminiChatService(modelName: "gemini-2.0-flash", apiKey: "AIzaSyBGtrSBQ6yd0IrvC8yxqu0O9pkb9O_6p5w")),
+      home: ChatScreen(geminiChatService: GeminiChatService(apiKey: "YOUR_API_KEY", modelName: 'gemini-2.0-flash'),),
       // home: Scaffold(
-      //   body: Center(
-      //     child: Column(
-      //       mainAxisSize: MainAxisSize.min,
-      //       spacing: 21,
-      //       children: [
-      //         Text(data),
-      //         ElevatedButton(
-      //           onPressed: () async {
+      //   body: SafeArea(
+      //     child: Center(
+      //       child: Column(
+      //         mainAxisSize: MainAxisSize.min,
+      //         spacing: 21,
+      //         children: [
+      //           Text(data),
+      //           ElevatedButton(
+      //             onPressed: () async {
+      //               data = await GeminiChatService(apiKey: '...', modelName: 'gemini-2.0-flash').sendMessage("hello there!");
       //
-      //            GeminiChatService(modelName: "gemini-2.0-flash", apiKey: "AIzaSyBGtrSBQ6yd0IrvC8yxqu0O9pkb9O_6p5w")
-      //                .sendMessage("hello there!");
-      //
-      //             // data = await testAPI();
-      //             // setState(() {
-      //             //   data = data;
-      //             // });
-      //           },
-      //           child: Text("Test API"),
-      //         ),
-      //       ],
+      //               setState(() {
+      //                 data = data;
+      //               });
+      //             },
+      //             child: Text("Test API"),
+      //           ),
+      //         ],
+      //       ),
       //     ),
       //   ),
       // ),
